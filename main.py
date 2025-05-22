@@ -251,18 +251,27 @@ def create_job(job: JobCreate, db: Session = Depends(get_db)):
         description=job.description,
         location=job.location,
         employer_id=job.employerId,
-        created_at=datetime.now(),
+        created_at=datetime.utcnow(),
         company_name=job.companyName,
         job_type=job.jobType,
         salary=job.salary,
         skills=job.skills
     )
-    
     db.add(db_job)
     db.commit()
     db.refresh(db_job)
-    
     return db_to_job(db_job)
+
+@app.delete("/jobs/{job_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_job(job_id: str, db: Session = Depends(get_db)):
+    db_job = db.query(JobModel).filter(JobModel.id == job_id).first()
+    if not db_job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    # Delete the job
+    db.delete(db_job)
+    db.commit()
+    return None
 
 # Application endpoints
 @app.get("/applications", response_model=List[Application])
