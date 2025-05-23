@@ -202,7 +202,7 @@ def db_to_application(db_app):
 # API Endpoints
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to Job Beacon API"}
+    return {"message": "Welcome to JobPortal API"}
 
 # User endpoints
 @app.get("/users", response_model=List[User])
