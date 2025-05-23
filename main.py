@@ -27,7 +27,7 @@ engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-app = FastAPI(title="Job Beacon API")
+app = FastAPI(title="JobPortal API")
 
 # Enable CORS
 app.add_middleware(
